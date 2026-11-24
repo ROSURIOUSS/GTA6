@@ -1,0 +1,19 @@
+# Render Blueprint: статический сайт без сборки.
+# Документация: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    runtime: static
+    name: ne-segodnya
+    # buildCommand в спецификации обязателен для не-Docker сервисов,
+    # поэтому ставим пустую заглушку вместо реальной сборки.
+    buildCommand: echo "Сборка не нужна"
+    staticPublishPath: .
+    autoDeployTrigger: commit
+    headers:
+      # Обновления игры должны доходить быстро: браузер всегда проверяет свежесть.
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache
+      - path: /
+        name: Cache-Control
+        value: no-cache
